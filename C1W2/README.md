@@ -26,46 +26,10 @@ This project implements a simple **binary classifier** (cat vs. non-cat) using l
 .
 ├── logistic_regression.py   # Main implementation file
 ├── lr_utils.py              # Utility functions for loading dataset
-├── datasets/
-│   └── (cat/non-cat image dataset in .h5 format)
+├── test_catvnoncat.h5       # dataset
+├── train_catvnoncat.h5      # dataset
 └── README.md                # You're here!
 ```
-
----
-
-## 🚀 How to Run
-
-### 1. Clone the repository
-
-```bash
-git clone https://github.com/your-username/your-repo-name.git
-cd your-repo-name
-```
-
-### 2. Install dependencies
-
-```bash
-pip install numpy matplotlib h5py pillow
-```
-
-### 3. Run the code
-
-```bash
-python logistic_regression.py
-```
-
-You should see training/test accuracy printed in the console and a learning curve plotted with `matplotlib`.
-
----
-
-## 📈 Sample Output
-
-```
-train accuracy: 99.0 %
-test accuracy: 70.0 %
-```
-
-![learning curve](your_plot_image_if_you_want_to_add_it.png)
 
 ---
 
@@ -88,18 +52,4 @@ Each image is of shape `(num_px, num_px, 3)` and flattened to `(num_px * num_px 
 - Manual implementation of gradient descent
 - Image preprocessing and flattening
 
----
 
-## 🧩 Future Work
-
-- Extend to multi-class classification
-- Implement softmax regression
-- Apply to real-world datasets
-- Add unit tests
-
----
-
-## 📜 License
-
-This is a learning project based on public educational content.  
-Feel free to use or modify for your own educational purposes.
