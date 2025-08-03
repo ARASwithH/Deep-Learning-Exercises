@@ -147,18 +147,54 @@ def predict(w, b, X):
 
 
 
+# Merge all functions into a model
+'''
+Builds the logistic regression model by calling the function you've implemented previously
 
+Arguments:
+X_train -- training set represented by a numpy array of shape (num_px * num_px * 3, m_train)
+Y_train -- training labels represented by a numpy array (vector) of shape (1, m_train)
+X_test -- test set represented by a numpy array of shape (num_px * num_px * 3, m_test)
+Y_test -- test labels represented by a numpy array (vector) of shape (1, m_test)
+num_iterations -- hyperparameter representing the number of iterations to optimize the parameters
+learning_rate -- hyperparameter representing the learning rate used in the update rule of optimize()
+print_cost -- Set to true to print the cost every 100 iterations
 
+Returns:
+d -- dictionary containing information about the model.
+'''
 
+def model(X_train, Y_train, X_test, Y_test, num_iterations, learning_rate):
 
+    w, b = params_initializer(X_train.shape[0])
+    w, b, cost, costs = optimazer(w, b, X_train, Y_train, num_iterations, learning_rate)
+    
+    Y_train_prediction = predict(w, b, X_train)
+    Y_test_prediction = predict(w, b, X_test)
 
+    return {
+        'predicted_train_Y' : Y_train_prediction,
+        'predicted_test_Y' : Y_test_prediction,
+        'best_w' : w,
+        'best_b' : b,
+        'final_cost' : cost,
+        'costs' : costs
+    }
 
+    
 
+info = model(train_set_x_flatten, train_set_y, test_set_x_flatten, test_set_y, 4000, 0.005)
 
-w, b = params_initializer(train_set_x_flatten.shape[0])
-w, b, cost, costs = optimazer(w, b, train_set_x_flatten, train_set_y, num_iterations= 10000, learning_rate = 0.005)
-costs = np.squeeze(costs)
+# Model Validation
 
+print("train accuracy: {} %".format(100 - np.mean(np.abs(info['predicted_train_Y'] - train_set_y)) * 100))
+print("test accuracy: {} %".format(100 - np.mean(np.abs(info['predicted_test_Y'] - test_set_y)) * 100))
+
+plt.plot(info["costs"])
+plt.ylabel("cost")
+plt.xlabel("iterations (x100)")
+plt.title("Learning rate = 0.05")
+plt.show()
 
 
 
