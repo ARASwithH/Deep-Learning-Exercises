@@ -29,5 +29,6 @@ A trick when you want to flatten a matrix X of shape (a,b,c,d) to a matrix X_fla
 X_flatten = X.reshape(X.shape[0], -1).T      # X.T is the transpose of X
 '''
 
-train_set_x_flatten = train_set_x_orig.reshape(num_px*num_px*3, m_train)
-test_set_x_flatten = test_set_x_orig.reshape(num_px*num_px*3, m_test)
+train_set_x_flatten = train_set_x_orig.reshape(num_px*num_px*3, m_train) / 255
+test_set_x_flatten = test_set_x_orig.reshape(num_px*num_px*3, m_test) / 255
+
