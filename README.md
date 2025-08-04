@@ -9,6 +9,7 @@ Each folder contains code and notes related to specific weeks and topics of the 
 ## 📚 Course Structure
 
 - **Course 1: Neural Networks and Deep Learning**
-  - Week 2: Logistic Regression
+  - Week 2: Logistic Regression with a Neural Network mindset
+  - Week 3: Data Classification with one hidden layer *(in progress)*
 
 
