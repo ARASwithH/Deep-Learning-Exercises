@@ -48,4 +48,46 @@ print(classification_report(y_test, y_pred))
 
 
 
+# Neural Network model
+
+# Defining the neural network structure
+'''
+**Exercise**: Define three variables:
+    - n_x: the size of the input layer
+    - n_h: the size of the hidden layer (set this to 4) 
+    - n_y: the size of the output layer
+
+**Hint**: Use shapes of X and Y to find n_x and n_y. Also, hard code the hidden layer size to be 4.
+'''
+def define_layer_size(X, Y):
+    return X.shape[0] , 4, Y.shape[0]
+
+
+# Initialize the model's parameters
+'''
+**Exercise**: Implement the function `initialize_parameters()`.
+
+**Instructions**:
+- Make sure your parameters' sizes are right. Refer to the neural network figure above if needed.
+- You will initialize the weights matrices with random values. 
+    - Use: `np.random.randn(a,b) * 0.01` to randomly initialize a matrix of shape (a,b).
+- You will initialize the bias vectors as zeros. 
+    - Use: `np.zeros((a,b))` to initialize a matrix of shape (a,b) with zeros.
+'''
+def initialize_parameters(n_x, n_h, n_y):
+    np.random.seed(1)
+    w1 = np.random.randn(n_h, n_x) * 0.01
+    b1 = np.zeros(n_h, n_y)
+    w2 = np.random.randn(n_h, n_y) * 0.01
+    b2 = np.zeros(n_y, n_y)
+    
+    return w1, b1, w2, b2
+
+
+
+
+
+
+
+
 
