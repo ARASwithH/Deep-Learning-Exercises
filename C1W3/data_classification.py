@@ -33,4 +33,19 @@ m = X_shape[1]
 
 
 
+# Simple Logistic Regression
+'''
+Before building a full neural network, lets first see how logistic regression performs on this problem.
+You can use sklearn's built-in functions to do that.
+Run the code below to train a logistic regression classifier on the dataset.
+'''
+lr = sklearn.linear_model.LogisticRegressionCV()
+X_train, X_test, y_train, y_test = train_test_split(X.T, Y.T, test_size=0.2, random_state=42)
+lr.fit(X_train, y_train.ravel())
+y_pred = lr.predict(X_test)
+print(classification_report(y_test, y_pred))
+
+
+
+
 
