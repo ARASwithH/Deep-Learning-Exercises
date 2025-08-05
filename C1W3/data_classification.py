@@ -80,8 +80,13 @@ def initialize_parameters(n_x, n_h, n_y):
     b1 = np.zeros(n_h, n_y)
     w2 = np.random.randn(n_h, n_y) * 0.01
     b2 = np.zeros(n_y, n_y)
+
+    parameters = {"w1": w1,
+                  "b1": b1,
+                  "w2": w2,
+                  "b2": b2}
     
-    return w1, b1, w2, b2
+    return parameters
 
 
 # The Loop
@@ -97,7 +102,12 @@ def initialize_parameters(n_x, n_h, n_y):
     2. Implement Forward Propagation. Compute $Z^{[1]}, A^{[1]}, Z^{[2]}$ and $A^{[2]}$ (the vector of all your predictions on all the examples in the training set).
 - Values needed in the backpropagation are stored in "`cache`". The `cache` will be given as an input to the backpropagation function.
 '''
-def forward_propagation(X, w1, b1, w2, b2):
+def forward_propagation(X, parameters):
+    w1 = parameters["w1"]
+    b1 = parameters["b1"]
+    w2 = parameters["w2"]
+    b2 = parameters["b2"]
+
     z1 = np.dot(w1, X) + b1
     a1 = np.tanh(z1)
     z2 = np.dot(w2, a1) + b2
@@ -111,7 +121,83 @@ def forward_propagation(X, w1, b1, w2, b2):
     return cache
 
 
+'''
+**Exercise**: Implement `compute_cost()` to compute the value of the cost $J$.
+
+**Instructions**:
+- There are many ways to implement the cross-entropy loss. To help you, we give you how we would have implemented
+$- \sum\limits_{i=0}^{m}  y^{(i)}\log(a^{[2](i)})$:
+```python
+logprobs = np.multiply(np.log(A2),Y)
+cost = - np.sum(logprobs)                # no need to use a for loop!
+```
+
+(you can use either `np.multiply()` and then `np.sum()` or directly `np.dot()`).  
+Note that if you use `np.multiply` followed by `np.sum` the end result will be a type `float`, whereas if you use `np.dot`,
+ the result will be a 2D numpy array.  We can use `np.squeeze()` to remove redundant dimensions (in the case of single float,
+  this will be reduced to a zero-dimension array). We can cast the array as a type `float` using `float()`.
+'''
+def compute_cost(A2, Y):
+    cost = -np.sum( np.multiply(Y, np.log(A2)) )
+    return np.squeeze(cost)
 
 
+'''
+**Question**: Implement the function `backward_propagation()`.
+
+**Instructions**:
+Backpropagation is usually the hardest (most mathematical) part in deep learning.
+To help you, here again is the slide from the lecture on backpropagation. 
+You'll want to use the six equations on the right of this slide, since you are building a vectorized implementation.  
+'''
+def backward_propagation(X, Y, cache, parameters):
+    Z1 = cache["Z1"]
+    A1 = cache["A1"]
+    Z2 = cache["Z2"]
+    A2 = cache["A2"]
+    W1 = parameters["W1"]
+    W2 = parameters["W2"]
+    m = X.shape[1]
+    
+    dZ2 = A2 - Y
+    dW2 = (np.dot(dZ2, A1.T)) / m
+    db2 = np.sum(dZ2, axis=1, keepdims=True) / m
+    dZ1 = np.dot(W2.T, dZ2) * (1 - np.power(A1, 2))
+    dW1 = np.dot(dZ1, X.T) / m
+    db1 = np.sum(dZ1, axis=1, keepdims=True) / m
+
+    grads = {"dW1": dW1,
+             "db1": db1,
+             "dW2": dW2,
+             "db2": db2}
+    
+    return grads
+
+
+'''
+**Question**: Implement the update rule. Use gradient descent. You have to use (dW1, db1, dW2, db2) in order to update (W1, b1, W2, b2).
+'''
+def update_parameters(parameters, grads, learning_rate):
+    W1 = parameters["W1"]
+    b1 = parameters["b1"]
+    W2 = parameters["W2"]
+    b2 = parameters["b2"]
+
+    dW1 = grads["dW1"]
+    db1 = grads["db1"]
+    dW2 = grads["dW2"]
+    db2 = grads["db2"]
+
+    W1 = W1 - learning_rate * dW1
+    b1 = b1 - learning_rate * db1
+    W2 = W2 - learning_rate * dW2
+    b2 = b2 - learning_rate * db2
+
+    updated_parameters = {"W1": W1,
+                  "b1": b1,
+                  "W2": W2,
+                  "b2": b2}
+
+    return updated_parameters
 
 
