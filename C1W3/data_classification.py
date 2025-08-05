@@ -43,6 +43,7 @@ lr = sklearn.linear_model.LogisticRegressionCV()
 X_train, X_test, y_train, y_test = train_test_split(X.T, Y.T, test_size=0.2, random_state=42)
 lr.fit(X_train, y_train.ravel())
 y_pred = lr.predict(X_test)
+print('Logistic Regression report:')
 print(classification_report(y_test, y_pred))
 
 
@@ -75,7 +76,7 @@ def define_layer_size(X, Y, n_h):
     - Use: `np.zeros((a,b))` to initialize a matrix of shape (a,b) with zeros.
 '''
 def initialize_parameters(n_x, n_h, n_y):
-    np.random.seed(1)
+    np.random.seed(2)
     w1 = np.random.randn(n_h, n_x) * 0.01
     b1 = np.zeros((n_h, n_y))
     w2 = np.random.randn(n_y, n_h) * 0.01
@@ -225,7 +226,49 @@ def nn_model(X, Y, n_h, num_iterations, learning_rate):
 
         if i % 1000 == 0:
             costs.append(cost)
-            print("Cost after iteration %i: %f" % (i, cost))
 
     return params, costs
 
+
+
+
+
+# 4.5 Predictions
+
+'''
+**Question**: Use your model to predict by building predict().
+Use forward propagation to predict results.
+'''
+def predict(params, X):
+    caches = forward_propagation(X, params)
+    return caches['A2'] > 0.5
+
+
+
+
+
+# Build a model with a n_h-dimensional hidden layer
+parameters, costs = nn_model(X, Y, 4,7000, 1.2)
+
+plt.plot(costs)
+plt.show()
+
+
+
+
+
+'''
+This code snippet is taken from the attached file in README.md
+'''
+# Plot the decision boundary
+plot_decision_boundary(lambda x: predict(parameters, x.T), X, Y)
+plt.title("Decision Boundary for hidden layer size " + str(4))
+plt.show()
+
+print('NN model repot:')
+predictions = predict(parameters, X)
+accuracy = (
+    np.dot(Y, predictions.T) + np.dot(1 - Y, 1 - predictions.T)
+) / float(Y.size) * 100
+
+print("Accuracy: %d%%" % accuracy.item())
