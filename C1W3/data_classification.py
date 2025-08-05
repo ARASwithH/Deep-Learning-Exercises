@@ -84,7 +84,31 @@ def initialize_parameters(n_x, n_h, n_y):
     return w1, b1, w2, b2
 
 
+# The Loop
+'''
+**Question**: Implement `forward_propagation()`.
 
+**Instructions**:
+- Look above at the mathematical representation of your classifier.
+- You can use the function `sigmoid()`. It is built-in (imported) in the notebook.
+- You can use the function `np.tanh()`. It is part of the numpy library.
+- The steps you have to implement are:
+    1. Retrieve each parameter from the dictionary "parameters" (which is the output of `initialize_parameters()`) by using `parameters[".."]`.
+    2. Implement Forward Propagation. Compute $Z^{[1]}, A^{[1]}, Z^{[2]}$ and $A^{[2]}$ (the vector of all your predictions on all the examples in the training set).
+- Values needed in the backpropagation are stored in "`cache`". The `cache` will be given as an input to the backpropagation function.
+'''
+def forward_propagation(X, w1, b1, w2, b2):
+    z1 = np.dot(w1, X) + b1
+    a1 = np.tanh(z1)
+    z2 = np.dot(w2, a1) + b2
+    a2 = sigmoid(z2)
+
+    cache = {"z1": z1,
+             "a1": a1,
+             "z2": z2,
+             "a2": a2}
+    
+    return cache
 
 
 
