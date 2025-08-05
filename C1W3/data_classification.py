@@ -48,7 +48,7 @@ print(classification_report(y_test, y_pred))
 
 
 
-# Neural Network model
+# Neural Network model functions
 
 # Defining the neural network structure
 '''
@@ -59,8 +59,8 @@ print(classification_report(y_test, y_pred))
 
 **Hint**: Use shapes of X and Y to find n_x and n_y. Also, hard code the hidden layer size to be 4.
 '''
-def define_layer_size(X, Y):
-    return X.shape[0] , 4, Y.shape[0]
+def define_layer_size(X, Y, n_h):
+    return X.shape[0] , n_h, Y.shape[0]
 
 
 # Initialize the model's parameters
@@ -77,13 +77,13 @@ def define_layer_size(X, Y):
 def initialize_parameters(n_x, n_h, n_y):
     np.random.seed(1)
     w1 = np.random.randn(n_h, n_x) * 0.01
-    b1 = np.zeros(n_h, n_y)
-    w2 = np.random.randn(n_h, n_y) * 0.01
-    b2 = np.zeros(n_y, n_y)
+    b1 = np.zeros((n_h, n_y))
+    w2 = np.random.randn(n_y, n_h) * 0.01
+    b2 = np.zeros((n_y, n_y))
 
-    parameters = {"w1": w1,
+    parameters = {"W1": w1,
                   "b1": b1,
-                  "w2": w2,
+                  "W2": w2,
                   "b2": b2}
     
     return parameters
@@ -103,20 +103,19 @@ def initialize_parameters(n_x, n_h, n_y):
 - Values needed in the backpropagation are stored in "`cache`". The `cache` will be given as an input to the backpropagation function.
 '''
 def forward_propagation(X, parameters):
-    w1 = parameters["w1"]
+    w1 = parameters["W1"]
     b1 = parameters["b1"]
-    w2 = parameters["w2"]
+    w2 = parameters["W2"]
     b2 = parameters["b2"]
-
     z1 = np.dot(w1, X) + b1
     a1 = np.tanh(z1)
     z2 = np.dot(w2, a1) + b2
     a2 = sigmoid(z2)
 
-    cache = {"z1": z1,
-             "a1": a1,
-             "z2": z2,
-             "a2": a2}
+    cache = {"Z1": z1,
+             "A1": a1,
+             "Z2": z2,
+             "A2": a2}
     
     return cache
 
@@ -200,4 +199,33 @@ def update_parameters(parameters, grads, learning_rate):
 
     return updated_parameters
 
+
+
+
+
+# Creat nn_model
+
+'''
+**Question**: Build your neural network model in `nn_model()`.
+**Instructions**: The neural network model has to use the previous functions in the right order.
+'''
+def nn_model(X, Y, n_h, num_iterations, learning_rate):
+
+    costs = []
+
+    n_x, n_h, n_y = define_layer_size(X, Y, n_h)
+    params = initialize_parameters(n_x, n_h, n_y)
+
+    for i in range(num_iterations):
+        cache = forward_propagation(X, params)
+        A2 = cache['A2']
+        cost = compute_cost(A2, Y)
+        grads = backward_propagation(X, Y, cache, params)
+        params = update_parameters(params, grads, learning_rate)
+
+        if i % 1000 == 0:
+            costs.append(cost)
+            print("Cost after iteration %i: %f" % (i, cost))
+
+    return params, costs
 
