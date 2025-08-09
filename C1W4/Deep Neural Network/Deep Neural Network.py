@@ -40,3 +40,41 @@ def initialization_params(dims):
 
     return params
 
+
+
+
+# Forward propagation module
+
+# Linear Forward 
+'''
+**Exercise**: Build the linear part of forward propagation.
+
+**Reminder**:
+The mathematical representation of this unit is $Z^{[l]} = W^{[l]}A^{[l-1]} +b^{[l]}$.
+ You may also find `np.dot()` useful. If your dimensions don't match, printing `W.shape` may help.
+'''
+
+def linear_forward_prop(W, A, b):
+    return ( np.dot(W, A) + b , (W, A, b))
+
+
+# Linear-Activation Forward
+'''
+**Exercise**: Implement the forward propagation of the *LINEAR->ACTIVATION* layer.
+ Mathematical relation is: $A^{[l]} = g(Z^{[l]}) = g(W^{[l]}A^{[l-1]} +b^{[l]})$ where the activation "g" can be sigmoid() or relu().
+ Use linear_forward() and the correct activation function.
+'''
+
+def linear_activation_forward_prop(W, A, b, g):
+    
+    Z = linear_forward_prop(W, A, b)
+    
+    if g == 'sigmoid':
+        A, activation_cache = sigmoid(Z)
+    
+    if g == 'relu':
+        A, activation_cache = relu(Z)
+
+    return A , (activation_cache, (W, A, b))
+    
+
