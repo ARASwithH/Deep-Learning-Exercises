@@ -53,10 +53,8 @@ def initialization_params(dims):
 The mathematical representation of this unit is $Z^{[l]} = W^{[l]}A^{[l-1]} +b^{[l]}$.
  You may also find `np.dot()` useful. If your dimensions don't match, printing `W.shape` may help.
 '''
-
 def linear_forward_prop(W, A, b):
     return np.dot(W, A) + b , (W, A, b)
-
 
 
 # Linear-Activation Forward
@@ -65,7 +63,6 @@ def linear_forward_prop(W, A, b):
  Mathematical relation is: $A^{[l]} = g(Z^{[l]}) = g(W^{[l]}A^{[l-1]} +b^{[l]})$ where the activation "g" can be sigmoid() or relu().
  Use linear_forward() and the correct activation function.
 '''
-
 def linear_activation_forward_prop(W, A, b, g):
     
     Z, linear_cache = linear_forward_prop(W, A, b)
@@ -77,8 +74,6 @@ def linear_activation_forward_prop(W, A, b, g):
         A, activation_cache = relu(Z)
 
     return A , (linear_cache, activation_cache)
-
-
 
 
 # L-Layer Model 
@@ -126,4 +121,69 @@ $$-\frac{1}{m} \sum\limits_{i = 1}^{m} (y^{(i)}\log\left(a^{[L] (i)}\right) + (1
 '''
 def cost_func(AL, Y):
     return (np.dot(Y, np.log(AL).T) + np.dot(1 - Y, np.log(1 - AL).T)) / (-1 * Y.shape[1])
+
+
+
+
+# Backward propagation module
+
+# Linear backward
+'''
+**Exercise**: Use the 3 formulas above to implement linear_backward().
+'''
+def linear_backward_prop(dZ, cache):
+    A, W, b = cache
+    m = A.shape[1]
+
+    dW = np.dot(dZ, A.T) / m
+    db = np.sum(dZ, axis=1, keepdims=True) / m
+    dA = np.dot(W.T, dZ)
+
+    return  dA, dW, db
+
+
+# Linear-Activation backward
+'''
+**Exercise**: Implement the backpropagation for the *LINEAR->ACTIVATION* layer.
+'''
+def linear_activation_backward_prop(dA, cache, g):
+
+    linear_cache, activation_cache = cache
+
+    if g == 'relu':
+        dZ = relu_backward(dA, activation_cache)
+        
+    if g == 'sigmoid':
+        dZ = sigmoid_backward(dA, activation_cache)
+
+    dA , dW, db = linear_backward_prop(dZ, linear_cache)
+
+    return dA , dW, db
+
+
+# L-Model Backward 
+'''
+**Exercise**: Implement backpropagation for the *[LINEAR->RELU] $\times$ (L-1) -> LINEAR -> SIGMOID* model.
+'''
+def L_model_backward_prop(AL, Y, caches):
+    
+    grads = {}
+    L = len(caches)
+    m = AL.shape[1]
+    Y.reshape(AL.shape)
+
+    dAL = - (np.divide(Y, AL) - np.divide(1 - Y, 1 - AL))
+
+    temp_cache = caches[L-1]
+    grads['dA'+str(L-1)],grads['dW'+str(L)],grads['db'+str(L)] = linear_activation_backward_prop(dAL, temp_cache, 'sigmoid')
+
+    for i in reversed(range(L-1)):
+        temp_cache = caches[i]
+        grads['dA'+str(i)],grads['dW'+str(i+1)],grads['db'+str(i+1)] = linear_activation_backward_prop(grads['dA'+str(i+1)], temp_cache, 'relu')
+
+    return grads
+
+
+    
+
 
