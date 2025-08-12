@@ -115,3 +115,15 @@ def L_model_forward_prop(X, params):
     caches.append(cache)
 
     return AL, caches
+
+
+
+
+# Cost func
+'''
+**Exercise**: Compute the cross-entropy cost $J$, using the following formula: 
+$$-\frac{1}{m} \sum\limits_{i = 1}^{m} (y^{(i)}\log\left(a^{[L] (i)}\right) + (1-y^{(i)})\log\left(1- a^{[L](i)}\right)) \tag{7}$$
+'''
+def cost_func(AL, Y):
+    return (np.dot(Y, np.log(AL).T) + np.dot(1 - Y, np.log(1 - AL).T)) / (-1 * Y.shape[1])
+
