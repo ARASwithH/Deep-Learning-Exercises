@@ -55,7 +55,8 @@ The mathematical representation of this unit is $Z^{[l]} = W^{[l]}A^{[l-1]} +b^{
 '''
 
 def linear_forward_prop(W, A, b):
-    return ( np.dot(W, A) + b , (W, A, b))
+    return np.dot(W, A) + b , (W, A, b)
+
 
 
 # Linear-Activation Forward
@@ -67,7 +68,7 @@ def linear_forward_prop(W, A, b):
 
 def linear_activation_forward_prop(W, A, b, g):
     
-    Z = linear_forward_prop(W, A, b)
+    Z, linear_cache = linear_forward_prop(W, A, b)
     
     if g == 'sigmoid':
         A, activation_cache = sigmoid(Z)
@@ -75,6 +76,42 @@ def linear_activation_forward_prop(W, A, b, g):
     if g == 'relu':
         A, activation_cache = relu(Z)
 
-    return A , (activation_cache, (W, A, b))
-    
+    return A , (linear_cache, activation_cache)
 
+
+
+
+# L-Layer Model 
+'''
+**Exercise**: Implement the forward propagation of the above model.
+
+**Instruction**: In the code below, the variable `AL` will denote $A^{[L]} = \sigma(Z^{[L]}) = \sigma(W^{[L]} A^{[L-1]} + b^{[L]})$.
+(This is sometimes also called `Yhat`, i.e., this is $\hat{Y}$.) 
+
+**Tips**:
+- Use the functions you had previously written 
+- Use a for loop to replicate [LINEAR->RELU] (L-1) times
+- Don't forget to keep track of the caches in the "caches" list. To add a new value `c` to a `list`, you can use `list.append(c)`.
+'''
+
+def L_model_forward_prop(X, params):
+
+    caches = []
+    L = int(len(params) / 2)
+    A = X
+    for i in range(L-1):
+        A_prev = A
+        W = params['W'+str(i+1)]
+        b = params['b'+str(i+1)]
+        g = 'relu'
+        A, cache = linear_activation_forward_prop(W, A_prev, b, g)
+        caches.append(cache)
+
+
+    W = params['W'+str(L)]
+    b = params['b'+str(L)]
+    g = 'sigmoid'
+    AL, cache = linear_activation_forward_prop(W, A, b, g)
+    caches.append(cache)
+
+    return AL, caches
