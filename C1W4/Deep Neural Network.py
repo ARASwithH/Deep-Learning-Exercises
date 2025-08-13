@@ -184,6 +184,29 @@ def L_model_backward_prop(AL, Y, caches):
     return grads
 
 
+
+
+# Update Parameters
+'''
+**Exercise**: Implement `update_parameters()` to update your parameters using gradient descent.
+
+**Instructions**:
+Update parameters using gradient descent on every $W^{[l]}$ and $b^{[l]}$ for $l = 1, 2, ..., L$. 
+'''
+def update_params(params, grads, learning_rate):
+    L = int(len(params) /2)
+
+    for i in range(L):
+        params["W"+str(i+1)] -= grads["dW"+str(i+1)] * learning_rate
+        params["b"+str(i+1)] -= grads["db"+str(i+1)] * learning_rate
+
+    return params
+
+
+
+
+
+
     
 
 
