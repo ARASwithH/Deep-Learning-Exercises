@@ -1,6 +1,5 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from testCases_v2 import *
 from sklearn.model_selection import train_test_split
 import sklearn
 import sklearn.datasets
