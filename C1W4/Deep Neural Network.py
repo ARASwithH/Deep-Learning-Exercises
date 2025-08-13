@@ -2,6 +2,11 @@ import numpy as np
 import h5py
 import matplotlib.pyplot as plt
 from dnn_utils_v2 import sigmoid, sigmoid_backward, relu, relu_backward
+import time
+import scipy
+from PIL import Image
+from scipy import ndimage
+from dnn_app_utils_v3 import *
 
 plt.rcParams['figure.figsize'] = (5.0, 4.0) # set default size of plots
 plt.rcParams['image.interpolation'] = 'nearest'
@@ -205,6 +210,17 @@ def update_params(params, grads, learning_rate):
 
 
 # Deep Neural Network for Image Classification: Application
+
+# Dataset
+train_x_orig, train_y, test_x_orig, test_y, classes = load_data()
+
+train_x_flatten = train_x_orig.reshape(train_x_orig.shape[0], -1).T
+test_x_flatten = test_x_orig.reshape(test_x_orig.shape[0], -1).T
+
+train_x = train_x_flatten/255
+test_x = test_x_flatten/255
+
+
 
 
 
