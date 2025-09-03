@@ -39,7 +39,7 @@ def initialization_params(dims):
     n = len(dims)
 
     for i in range(n-1):
-        params["W" + str(i+1)] = np.random.randn(dims[i+1], dims[i]) * 0.01
+        params["W" + str(i+1)] = np.random.randn(dims[i+1], dims[i]) * np.sqrt(2/dims[i])
         params["b" + str(i+1)] = np.zeros((dims[i+1], 1))
 
     return params
@@ -124,6 +124,7 @@ def L_model_forward_prop(X, params):
 $$-\frac{1}{m} \sum\limits_{i = 1}^{m} (y^{(i)}\log\left(a^{[L] (i)}\right) + (1-y^{(i)})\log\left(1- a^{[L](i)}\right)) \tag{7}$$
 '''
 def cost_func(AL, Y):
+    AL = np.clip(AL, 1e-10, 1-1e-10)
     return (np.dot(Y, np.log(AL).T) + np.dot(1 - Y, np.log(1 - AL).T)) / (-1 * Y.shape[1])
 
 
@@ -136,7 +137,7 @@ def cost_func(AL, Y):
 **Exercise**: Use the 3 formulas above to implement linear_backward().
 '''
 def linear_backward_prop(dZ, cache):
-    A, W, b = cache
+    W, A, b = cache
     m = A.shape[1]
 
     dW = np.dot(dZ, A.T) / m
@@ -174,7 +175,7 @@ def L_model_backward_prop(AL, Y, caches):
     grads = {}
     L = len(caches)
     m = AL.shape[1]
-    Y.reshape(AL.shape)
+    Y = Y.reshape(AL.shape)
 
     dAL = - (np.divide(Y, AL) - np.divide(1 - Y, 1 - AL))
 
@@ -222,10 +223,47 @@ test_x = test_x_flatten/255
 
 
 
-
-
-
-
+# L-layer Neural Network
+'''
+**Question**: Use the helper functions you have implemented previously to build
+an $L$-layer neural network with the following structure: *[LINEAR -> RELU]$\times$(L-1) -> LINEAR -> SIGMOID*.
+'''
+def L_layer_model(X, Y, layers_dims, learning_rate, num_iterations):
     
+    costs = []
+    params = initialization_params(layers_dims)
+
+    for i in range(num_iterations):
+        
+        AL, caches = L_model_forward_prop(X, params)
+
+        cost = cost_func(AL, Y)
+
+        grads = L_model_backward_prop(AL, Y, caches)
+
+        params = update_params(params, grads, learning_rate)
+
+        if i % 100 == 0:
+            costs.append(cost)
+
+    return params, costs
 
 
+layers_dims = [12288, 20, 7, 5, 1]
+
+learning_rate = 0.0075
+iteration_num = 5000
+
+params, costs = L_layer_model(train_x, train_y, layers_dims, learning_rate ,iteration_num)
+
+pred_train = predict(train_x, train_y, params)
+pred_test = predict(test_x, test_y, params)
+
+
+plt.plot(np.squeeze(costs))
+plt.ylabel('cost')
+plt.xlabel('iterations (per hundreds)')
+plt.title("Learning rate =" + str(learning_rate))
+plt.show()
+
+print_mislabeled_images(classes, test_x, test_y, pred_test)

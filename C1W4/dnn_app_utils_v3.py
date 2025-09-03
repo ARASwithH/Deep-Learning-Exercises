@@ -85,11 +85,11 @@ def sigmoid_backward(dA, cache):
 
 
 def load_data():
-    train_dataset = h5py.File('datasets/train_catvnoncat.h5', "r")
+    train_dataset = h5py.File('C1W4/train_catvnoncat.h5', "r")
     train_set_x_orig = np.array(train_dataset["train_set_x"][:]) # your train set features
     train_set_y_orig = np.array(train_dataset["train_set_y"][:]) # your train set labels
 
-    test_dataset = h5py.File('datasets/test_catvnoncat.h5', "r")
+    test_dataset = h5py.File('C1W4/test_catvnoncat.h5', "r")
     test_set_x_orig = np.array(test_dataset["test_set_x"][:]) # your test set features
     test_set_y_orig = np.array(test_dataset["test_set_y"][:]) # your test set labels
 
@@ -423,6 +423,9 @@ def print_mislabeled_images(classes, X, y, p):
     y -- true labels
     p -- predictions
     """
+
+    classes = np.array([b'non-cat', b'cat'])
+
     a = p + y
     mislabeled_indices = np.asarray(np.where(a == 1))
     plt.rcParams['figure.figsize'] = (40.0, 40.0) # set default size of plots
@@ -433,4 +436,6 @@ def print_mislabeled_images(classes, X, y, p):
         plt.subplot(2, num_images, i + 1)
         plt.imshow(X[:,index].reshape(64,64,3), interpolation='nearest')
         plt.axis('off')
-        plt.title("Prediction: " + classes[int(p[0,index])].decode("utf-8") + " \n Class: " + classes[y[0,index]].decode("utf-8"))
+        plt.title("Prediction: " + classes[0 if 1 == int(p[0,index]) else 1].decode("utf-8") + " \n Class: " + classes[y[0,index]].decode("utf-8"))
+        
+        plt.show()
