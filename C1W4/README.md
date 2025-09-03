@@ -1,4 +1,4 @@
-# 🧠 Neural Network from Scratch (4-Layer) - Deep Learning Specialization (Week 4)
+# 🧠 Deep Neural Network to classify cat vs non-cat from scrach - Deep Learning Specialization (Week 4)
 
 This repository contains my personal implementation of a **4-layer deep neural network** from scratch using NumPy, inspired by the [Coursera Deep Learning Specialization](https://www.coursera.org/specializations/deep-learning) by Andrew Ng.
 
