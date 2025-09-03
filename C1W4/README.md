@@ -26,8 +26,8 @@ This project implements a **binary image classifier** (cat vs. non-cat) using a 
 
 ```bash
 .
-├── dnn_app.py               # Main implementation file (4-layer NN)
-├── dnn_utils.py             # Helper functions for forward/backward propagation
+├── Deep Neural Network.py   # Main implementation file (4-layer NN)
+├── dnn_app_utils.py             # Helper functions for forward/backward propagation
 ├── test_catvnoncat.h5       # Test dataset
 ├── train_catvnoncat.h5      # Training dataset
 └── README.md                # You're here!
