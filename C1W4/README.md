@@ -32,7 +32,6 @@ This project implements a **binary image classifier** (cat vs. non-cat) using a 
 ├── train_catvnoncat.h5      # Training dataset
 └── README.md                # You're here!
 ```
----
 
 ---
 
