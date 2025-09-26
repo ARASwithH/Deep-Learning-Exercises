@@ -125,7 +125,7 @@ axes.set_ylim([-1.5,1.5])
 plot_decision_boundary(lambda x: predict_dec(parameters, x.T), train_X, train_Y)
 print("\n")
 
-# random initialization he
+# He initialization he
 print("He initialization :")
 parameters = model(train_X, train_Y, initialization = "he")
 print ("On the train set:")
