@@ -1,4 +1,4 @@
-# 🧠 Neural Network from Scratch (4-Layer) - Deep Learning Specialization (Week 4)
+# 🧠 Deep Neural Network to classify cat vs non-cat from scrach - Deep Learning Specialization (Week 4)
 
 This repository contains my personal implementation of a **4-layer deep neural network** from scratch using NumPy, inspired by the [Coursera Deep Learning Specialization](https://www.coursera.org/specializations/deep-learning) by Andrew Ng.
 
@@ -26,8 +26,8 @@ This project implements a **binary image classifier** (cat vs. non-cat) using a 
 
 ```bash
 .
-├── dnn_app.py               # Main implementation file (4-layer NN)
-├── dnn_utils.py             # Helper functions for forward/backward propagation
+├── Deep Neural Network.py   # Main implementation file (4-layer NN)
+├── dnn_app_utils.py             # Helper functions for forward/backward propagation
 ├── test_catvnoncat.h5       # Test dataset
 ├── train_catvnoncat.h5      # Training dataset
 └── README.md                # You're here!
