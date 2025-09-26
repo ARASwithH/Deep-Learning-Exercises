@@ -62,3 +62,38 @@ def model(X, Y, learning_rate = 0.01, num_iterations = 15000, print_cost = True,
     
     return parameters
 
+
+# Personal Implementation for Zeros initialization
+def initialize_parameters_zeros(layer_dims):
+
+    params = {}
+    for i in range(len(layer_dims) - 1):
+        params[f'W{i+1}'] = np.zeros((layer_dims[i+1], layer_dims[i]))
+        params[f'b{i+1}'] = np.zeros((layer_dims[i+1], 1))
+
+    return params
+
+# Personal Implementation for Random initialization
+def initialize_parameters_random(layer_dims):
+
+    np.random.seed(1)
+    params = {}
+    for i in range(len(layer_dims) - 1):
+        params[f'W{i+1}'] = np.random.randn(layer_dims[i+1], layer_dims[i]) * 10
+        params[f'b{i+1}'] = np.zeros((layer_dims[i+1], 1))
+
+    return params
+
+# Personal Implementation for He initialization
+def initialize_parameters_he(layer_dims):
+    
+    np.random.seed(1)
+    params = {}
+    for i in range(len(layer_dims) - 1):
+        params[f'W{i+1}'] = np.random.randn(layer_dims[i+1], layer_dims[i]) * np.sqrt(2 / layer_dims[i])
+        params[f'b{i+1}'] = np.zeros((layer_dims[i+1], 1)) * np.sqrt(2 / layer_dims[i])
+
+    return params
+
+
+
