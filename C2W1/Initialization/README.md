@@ -6,11 +6,11 @@ Original reference notebook:
 [amanchadha's GitHub - C2W1: Initialization](https://github.com/amanchadha/coursera-deep-learning-specialization/tree/master/C2%20-%20Improving%20Deep%20Neural%20Networks%20Hyperparameter%20tuning%2C%20Regularization%20and%20Optimization/Week%201/Initialization)
 
 ---
-
+```bash
 ├── initialization.py      # Main implementation file (initialization strategies)
 ├── init_utils.py          # Helper functions for propagation, loss, and visualization
 └── README.md              # You're here!
-
+```
 ---
 
 📦 Dataset
