@@ -15,6 +15,7 @@ plt.rcParams['image.cmap'] = 'gray'
 
 # load image dataset: blue/red dots in circles
 train_X, train_Y, test_X, test_Y = load_dataset()
+plt.show()
 
 # Neural Nework Model from Source
 def model(X, Y, learning_rate = 0.01, num_iterations = 15000, print_cost = True, initialization = "zeros"):
@@ -50,14 +51,13 @@ def model(X, Y, learning_rate = 0.01, num_iterations = 15000, print_cost = True,
         
         # Print the loss every 1000 iterations
         if print_cost and i % 1000 == 0:
-            print("Cost after iteration {}: {}".format(i, cost))
             costs.append(cost)
             
     # plot the loss
     plt.plot(costs)
     plt.ylabel('cost')
     plt.xlabel('iterations (per hundreds)')
-    plt.title("Learning rate =" + str(learning_rate))
+    plt.title("Cost plot - Learning rate =" + str(learning_rate) + " - " + initialization + " initialization")
     plt.show()
     
     return parameters
@@ -95,5 +95,47 @@ def initialize_parameters_he(layer_dims):
 
     return params
 
+# zeros initialization test
+print("Zeros initialization :")
+parameters = model(train_X, train_Y, initialization = "zeros")
+print ("On the train set:")
+predictions_train = predict(train_X, train_Y, parameters)
+print ("On the test set:")
+predictions_test = predict(test_X, test_Y, parameters)
 
+plt.title("Model with Zeros initialization")
+axes = plt.gca()
+axes.set_xlim([-1.5,1.5])
+axes.set_ylim([-1.5,1.5])
+plot_decision_boundary(lambda x: predict_dec(parameters, x.T), train_X, train_Y)
+print("\n")
 
+# random initialization test
+print("Random initialization :")
+parameters = model(train_X, train_Y, initialization = "random")
+print ("On the train set:")
+predictions_train = predict(train_X, train_Y, parameters)
+print ("On the test set:")
+predictions_test = predict(test_X, test_Y, parameters)
+
+plt.title("Model with Random initialization")
+axes = plt.gca()
+axes.set_xlim([-1.5,1.5])
+axes.set_ylim([-1.5,1.5])
+plot_decision_boundary(lambda x: predict_dec(parameters, x.T), train_X, train_Y)
+print("\n")
+
+# random initialization he
+print("He initialization :")
+parameters = model(train_X, train_Y, initialization = "he")
+print ("On the train set:")
+predictions_train = predict(train_X, train_Y, parameters)
+print ("On the test set:")
+predictions_test = predict(test_X, test_Y, parameters)
+
+plt.title("Model with He initialization")
+axes = plt.gca()
+axes.set_xlim([-1.5,1.5])
+axes.set_ylim([-1.5,1.5])
+plot_decision_boundary(lambda x: predict_dec(parameters, x.T), train_X, train_Y)
+print("\n")

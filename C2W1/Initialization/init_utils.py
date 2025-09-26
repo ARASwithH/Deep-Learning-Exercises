@@ -183,7 +183,7 @@ def predict(X, y, parameters):
     """
     
     m = X.shape[1]
-    p = np.zeros((1,m), dtype = np.int)
+    p = np.zeros((1,m), dtype = int)
     
     # Forward propagation
     a3, caches = forward_propagation(X, parameters)
@@ -240,7 +240,8 @@ def load_dataset():
     np.random.seed(2)
     test_X, test_Y = sklearn.datasets.make_circles(n_samples=100, noise=.05)
     # Visualize the data
-    plt.scatter(train_X[:, 0], train_X[:, 1], c=train_Y, s=40, cmap=plt.cm.Spectral);
+    plt.scatter(train_X[:, 0], train_X[:, 1], c=train_Y, s=40, cmap=plt.cm.Spectral)
+    plt.title('Data Set')
     train_X = train_X.T
     train_Y = train_Y.reshape((1, train_Y.shape[0]))
     test_X = test_X.T
